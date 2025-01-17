@@ -615,8 +615,8 @@ def read_single(fnames, obspy_read_kwargs=None, degrees_from_north=None):
         except Exception as e:
             logger.info(f"Tried reading as {ftype}, got exception |  {e}")
 
-            if ftype == "peer":
-                raise e
+            # if ftype == "peer":
+            #     raise e
 
             pass
         else:
