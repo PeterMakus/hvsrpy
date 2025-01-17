@@ -615,8 +615,8 @@ def read_single(fnames, obspy_read_kwargs=None, degrees_from_north=None):
         except Exception as e:
             logger.info(f"Tried reading as {ftype}, got exception |  {e}")
 
-            # if ftype == "peer":
-            #     raise e
+            if ftype == "peer":
+                raise e
 
             pass
         else:
@@ -697,9 +697,13 @@ def read(fnames, obspy_read_kwargs=None, degrees_from_north=None):
         if isinstance(fname, (list, tuple)):
             if len(fname) == 1:
                 fname = fname[0]
-
-        seismic_recordings.append(read_single(fname,
+        try:
+            seismic_recordings.append(
+                read_single(fname,
                                               obspy_read_kwargs=read_kwargs,
                                               degrees_from_north=degrees_from_north))
+        except Exception as e:
+            logger.error(f"Failed to read {fname} with exception | {e}")
+            print(f"Failed to read {fname} with exception | {e}")
 
     return seismic_recordings
